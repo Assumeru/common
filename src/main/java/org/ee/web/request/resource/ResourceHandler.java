@@ -1,4 +1,4 @@
-package org.ee.web.request;
+package org.ee.web.request.resource;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,12 +12,23 @@ import org.apache.commons.io.IOUtils;
 import org.ee.logger.LogManager;
 import org.ee.logger.Logger;
 import org.ee.web.Status;
+import org.ee.web.request.Request;
 import org.ee.web.request.filter.RequestFilter;
 import org.ee.web.response.Response;
 import org.ee.web.response.SimpleResponse;
 
 public abstract class ResourceHandler implements RequestFilter {
 	private static final Logger LOG = LogManager.createLogger();
+	private final String directory;
+
+	public ResourceHandler(String directory) {
+		this.directory = directory;
+	}
+
+	@Override
+	public boolean matches(Request request) {
+		return request.getPath().startsWith(directory);
+	}
 
 	@Override
 	public Response handle(Request request) {
@@ -33,13 +44,19 @@ public abstract class ResourceHandler implements RequestFilter {
 			return new SimpleResponse(Status.INTERNAL_SERVER_ERROR);
 		}
 		Response response = new SimpleResponse(Status.OK, output);
-		response.setContentType(getType(request));
+		response.setContentType(getType(request, file));
 		return response;
 	}
 
-	protected abstract String getType(Request request);
+	protected abstract String getType(Request request, File file);
 
 	protected File getFile(Request request) {
 		return request.getContext().getFile(request.getPath());
+	}
+
+	protected String getFileExtension(File file) {
+		String name = file.getName();
+		int index = name.lastIndexOf('.');
+		return index < 0 ? "" : name.substring(index + 1); 
 	}
 }
