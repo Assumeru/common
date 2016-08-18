@@ -107,7 +107,7 @@ public abstract class AbstractConfig implements Config {
 		String value = getString(key);
 		if(value != null) {
 			try {
-				return Class.forName(value);
+				return Thread.currentThread().getContextClassLoader().loadClass(value);
 			} catch (ClassNotFoundException e) {
 			}
 		}

@@ -19,8 +19,8 @@ public final class ReflectionUtils {
 		return methods;
 	}
 
-	public static <T> Class<T> getSubclass(String className, Class<T> parentClass) throws ClassNotFoundException {
-		return getSubclass(Class.forName(className), parentClass);
+	public static <T> Class<T> getSubclass(String className, ClassLoader classLoader, Class<T> parentClass) throws ClassNotFoundException {
+		return getSubclass(classLoader.loadClass(className), parentClass);
 	}
 
 	@SuppressWarnings("unchecked")
