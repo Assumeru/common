@@ -20,9 +20,15 @@ import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.descriptor.JspConfigDescriptor;
 
+/**
+ * Convenience class for overriding ServletContext methods.
+ */
 public class ServletContextWrapper implements ServletContext {
 	private final ServletContext context;
 
+	/**
+	 * @param context The context to pass all calls on to.
+	 */
 	public ServletContextWrapper(ServletContext context) {
 		this.context = context;
 	}
@@ -87,16 +93,19 @@ public class ServletContextWrapper implements ServletContext {
 		return context.getNamedDispatcher(name);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Servlet getServlet(String name) throws ServletException {
 		return context.getServlet(name);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Enumeration<Servlet> getServlets() {
 		return context.getServlets();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Enumeration<String> getServletNames() {
 		return context.getServletNames();
@@ -107,6 +116,7 @@ public class ServletContextWrapper implements ServletContext {
 		context.log(msg);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void log(Exception exception, String msg) {
 		context.log(exception, msg);

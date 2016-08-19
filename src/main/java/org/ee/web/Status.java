@@ -18,6 +18,7 @@ public class Status {
 
 	public static final Status OK = new Status(200);
 	public static final Status NO_CONTENT = new Status(204);
+	public static final Status MOVED_PERMANENTLY = new Status(301);
 	public static final Status SEE_OTHER = new Status(303);
 	public static final Status BAD_REQUEST = new Status(400);
 	public static final Status FORBIDDEN = new Status(403);
