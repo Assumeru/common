@@ -14,11 +14,6 @@ import org.ee.web.response.Response;
 
 public abstract class RequestFilterHandler implements RequestHandler {
 	private static final Logger LOG = LogManager.createLogger();
-	private final Set<RequestFilter> filters;
-
-	public RequestFilterHandler(Set<RequestFilter> filters) {
-		this.filters = filters;
-	}
 
 	@Override
 	public Response handle(Request request) {
@@ -49,7 +44,7 @@ public abstract class RequestFilterHandler implements RequestHandler {
 			LOG.e("Path contains ../");
 			return getStatusPageInternal(Status.BAD_REQUEST);
 		}
-		for(RequestFilter filter : filters) {
+		for(RequestFilter filter : getFilters()) {
 			if(filter.matches(request)) {
 				return filter;
 			}
@@ -69,7 +64,5 @@ public abstract class RequestFilterHandler implements RequestHandler {
 
 	protected abstract RequestHandler getStatusPage(Status status);
 
-	protected Set<RequestFilter> getFilters() {
-		return filters;
-	}
+	protected abstract Set<RequestFilter> getFilters();
 }
